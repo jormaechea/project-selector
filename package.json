@@ -1,0 +1,15 @@
+{
+  "name": "project-selector",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [
+    "project selector"
+  ],
+  "author": "Joaquín Ormaechea (",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "prompts": "^2.2.1"
+  }
+}
