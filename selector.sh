@@ -1,6 +1,10 @@
 #!/bin/bash
 
-DIRNAME=$(dirname $BASH_SOURCE)
+DIRNAME=$(dirname $0)
+
+if [ ! -z $BASH_SOURCE ]; then
+	DIRNAME=$(dirname $BASH_SOURCE)
+fi
 
 node $DIRNAME/index.js
 
