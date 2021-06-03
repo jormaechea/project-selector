@@ -18,14 +18,19 @@ const promptProyects = proyects => {
 		{
 			type: 'autocomplete',
 			name: 'proyect',
-			message: 'Seleccioná el proyecto que quieras',
+			message: 'Select a project (you can start typing)',
 			choices: proyectsChoices,
 			suggest: (input, choices) => {
 				const matcher = new RegExp(input, 'i');
 				return Promise.resolve(choices.filter(({ title }) => title.match(matcher)));
 			}
 		}
-	])
+	], {
+		onCancel: () => {
+			console.log('Operation cancelled');
+			process.exit(0);
+		}
+	})
 };
 
 const selectProyect = proyect => {
