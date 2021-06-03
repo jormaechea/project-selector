@@ -3,12 +3,20 @@
 const fs = require('fs-extra');
 const path = require('path');
 const prompts = require('prompts');
+const Fuse = require('fuse.js')
 
 const BASE_PATH = '/var/www/';
 
 const readProyects = () => {
 	return fs.readdir(BASE_PATH);
 };
+
+const fuse = new Fuse([], {
+	findAllMatches: true,
+	threshold: 0.3,
+	keys: ['title']
+});
+
 
 const promptProyects = proyects => {
 
@@ -20,9 +28,11 @@ const promptProyects = proyects => {
 			name: 'proyect',
 			message: 'Select a project (you can start typing)',
 			choices: proyectsChoices,
-			suggest: (input, choices) => {
-				const matcher = new RegExp(input, 'i');
-				return Promise.resolve(choices.filter(({ title }) => title.match(matcher)));
+			suggest: async (input, choices) => {
+
+				fuse.setCollection(choices);
+				return fuse.search(input)
+					.map(({ item }) => item);
 			}
 		}
 	], {

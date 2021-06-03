@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "fs-extra": "^8.1.0",
+    "fuse.js": "^6.4.6",
     "prompts": "^2.2.1"
   }
 }
