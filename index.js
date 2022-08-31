@@ -7,8 +7,8 @@ const prompts = require('prompts');
 const BASE_PATH = '/var/www/';
 
 const readProjects = async () => {
-	const directories = await fs.readdir(BASE_PATH, { withFileTypes: true });
-    return directories.filter(project => project.isDirectory())
+	const content = await fs.readdir(BASE_PATH, { withFileTypes: true });
+    return content.filter(project => project.isDirectory())
     	.map(project => project.name)
 }
 
