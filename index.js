@@ -7,9 +7,11 @@ const Fuse = require('fuse.js')
 
 const BASE_PATH = '/var/www/';
 
-const readProyects = () => {
-	return fs.readdir(BASE_PATH);
-};
+const readProjects = async () => {
+	const content = await fs.readdir(BASE_PATH, { withFileTypes: true });
+    return content.filter(project => project.isDirectory())
+    	.map(project => project.name)
+}
 
 const fuse = new Fuse([], {
 	findAllMatches: true,
@@ -17,22 +19,21 @@ const fuse = new Fuse([], {
 	keys: ['title']
 });
 
+const promptProjects = projects => {
 
-const promptProyects = proyects => {
-
-	const proyectsChoices = proyects.map(proyect => ({ title: proyect, value: proyect }));
+	const projectsChoices = projects.map(project => ({ title: project, value: project }));
 
 	return prompts([
 		{
 			type: 'autocomplete',
-			name: 'proyect',
+			name: 'project',
 			message: 'Select a project (you can start typing)',
-			choices: proyectsChoices,
+			choices: projectsChoices,
 			suggest: async (input, choices) => {
-
 				fuse.setCollection(choices);
 				return fuse.search(input)
 					.map(({ item }) => item);
+
 			}
 		}
 	], {
@@ -43,18 +44,18 @@ const promptProyects = proyects => {
 	})
 };
 
-const selectProyect = proyect => {
-	fs.writeFileSync(path.resolve(__dirname, '.selected-proyect'), proyect);
+const selectProject = project => {
+	fs.writeFileSync(path.resolve(__dirname, '.selected-project'), project);
 };
 
 (async () => {
 
-	selectProyect('');
+	selectProject('');
 
-	const proyects = await readProyects();
+	const projects = await readProjects();
 
-	const { proyect } = await promptProyects(proyects);
+	const { project } = await promptProjects(projects);
 
-	selectProyect(proyect)
+	selectProject(project)
 
 })();

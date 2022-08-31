@@ -8,7 +8,7 @@ fi
 
 node $DIRNAME/index.js
 
-proyectDirectory=$(cat $DIRNAME/.selected-proyect 2>/dev/null)
+proyectDirectory=$(cat $DIRNAME/.selected-project 2>/dev/null)
 
 if [ ! -z $proyectDirectory ] && [ -d /var/www/$proyectDirectory ]; then
 	cd /var/www/$proyectDirectory
